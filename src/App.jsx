@@ -12,29 +12,44 @@ export function App() {
     const newTask = {
       id: tasks.length + 1,
       title: inputRef.current.value,
-      isCompleted: true
+      isCompleted: false
     }
 
     setTasks([...tasks, newTask])
 
     inputRef.current.value = ''
   }
+
+  function handleCompleteTask(id) {
+    const taskIndex = tasks.findIndex(item => item.id == id);
+
+    if (taskIndex == -1) {
+      return;
+    }
+
+    const newTasks = [...tasks]
+
+    newTasks[taskIndex].isCompleted = true
+
+    setTasks(newTasks)
+
+  }
   return (
     <main className={styles.container}>
-      <h1 className={styles.title}>Dancer's</h1>
+      <h1 className={styles.title}>Task Lists</h1>
 
       <div className={styles.inputGroup}>
-        <input className={styles.input} placeholder="Digite a sua dança...." ref={inputRef} type="text" />
-        <button className={styles.button} onClick={handleAddTask}>Add</button>
+        <input className={styles.input} placeholder="Digite a sua tarefa ...." ref={inputRef} type="text" />
+        <button className={styles.button} onClick={handleAddTask}>Adicionar</button>
       </div>
-      
+
       <div className={styles.tasks}>
         {tasks.length > 0 && tasks.map(item => (
-         <Task key={item.id} task={item} />
+          <Task key={item.id} task={item} handleCompleteTask={handleCompleteTask} />
         ))}
 
         {!tasks.length && <p>Nenhuma tarefa ainda...😒</p>}
-        
+
       </div>
     </main>
   );

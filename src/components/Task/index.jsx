@@ -1,13 +1,14 @@
 import styles from './styles.module.css';
 
-
 export function Task(props) {
   return (
     <div className={styles.container}>
-      <p className={styles.title}>{props.task.id}. {props.task.title}</p>
+      <p className={`${styles.title} ${props.task.isCompleted ? styles.completed : ''}`}>
+        {props.task.id}. {props.task.title}
+      </p>
       {!props.task.isCompleted && (
-        <button className={styles.button}>OK</button>
+        <button onClick={() => props.handleCompleteTask(props.task.id)} className={styles.button}>OK</button>
       )}
     </div>
-  )
+  );
 }
